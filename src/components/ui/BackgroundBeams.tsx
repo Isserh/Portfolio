@@ -1,34 +1,41 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef } from 'react';
+import { cn } from '../../utils/cn';
 
-export const BackgroundBeams: React.FC = () => {
+export const BackgroundBeams = ({ className }: { className?: string }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = container.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      container.style.setProperty('--x', `${x}px`);
+      container.style.setProperty('--y', `${y}px`);
+    };
+
+    container.addEventListener('mousemove', handleMouseMove);
+    return () => container.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
-    <div className="absolute inset-0 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/20 to-transparent" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.1),transparent_50%)]" />
-      <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute h-[1px] w-[1px] rounded-full bg-accent/30"
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              scale: 0,
-              opacity: 0,
-            }}
-            animate={{
-              scale: [0, 1, 0],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: Math.random() * 3 + 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
+    <div
+      ref={containerRef}
+      className={cn(
+        'absolute inset-0 overflow-hidden [--x:50%] [--y:50%]',
+        className
+      )}
+    >
+      <div className="absolute inset-0 bg-gradient-to-r from-violet-500/20 via-purple-500/20 to-fuchsia-500/20" />
+      <div
+        className="absolute inset-0 opacity-0 transition-opacity duration-300"
+        style={{
+          background: `radial-gradient(600px circle at var(--x) var(--y), rgba(255,255,255,0.1), transparent 40%)`,
+        }}
+      />
     </div>
   );
 }; 

@@ -1,20 +1,26 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CardStack } from './ui/CardStack';
-
-interface Skill {
-  name: string;
-  level: number;
-}
-
-interface Education {
-  title: string;
-  school: string;
-  year: string;
-}
+import HoverCard from './ui/HoverCard';
+import AnimatedText from './ui/AnimatedText';
+import { BackgroundBeams } from './ui/BackgroundBeams';
 
 const About: React.FC = () => {
-  const skills: Skill[] = [
+  const formations = [
+    {
+      année: "2025",
+      diplôme: "Technicien spécialisé en développement web",
+      école: "Ecole Française d’Enseignement Technique (EFET)",
+      description: "Spécialisation en développement full-stack et applications web modernes"
+    },
+    {
+      année: "2013",
+      diplôme: "DUT Réseaux et télécommunications",
+      école: "Université de Bourgogne",
+      description: "Formation en infrastructure réseaux et télécommunications"
+    }
+  ];
+
+  const skills = [
     { name: 'HTML/CSS', level: 95 },
     { name: 'PHP', level: 85 },
     { name: 'SQL', level: 90 },
@@ -25,166 +31,104 @@ const About: React.FC = () => {
     { name: 'Node.js', level: 20 },
   ];
 
-  const education: Education[] = [
-    {
-      title: 'Technicien spécialisé en développement web',
-      school: 'l\'Ecole Française d\'Enseignement Technique (EFET)',
-      year: '2025'
-    },
-    {
-      title: 'DUT Réseaux et télécommunications',
-      school: 'Université de Bourgogne',
-      year: '2013'
-    }
-  ];
-
-  const cards = [
-    {
-      id: 1,
-      name: "John Doe",
-      designation: "Développeur Web Full Stack",
-      content: (
-        <div className="flex flex-col items-center justify-center h-full">
-          <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-accent/20 shadow-neon mb-4">
-            <img
-              src="/profile.jpg"
-              alt="Profile"
-              className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500"
-            />
-          </div>
-          <div className="text-center">
-            <h3 className="text-xl font-semibold mb-2">John Doe</h3>
-            <p className="text-accent">Développeur Web Full Stack</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 2,
-      name: "Compétences",
-      designation: "Expert en développement web",
-      content: (
-        <div className="space-y-4">
-          {skills.map((skill) => (
-            <div key={skill.name} className="relative">
-              <div className="flex justify-between mb-1">
-                <span className="text-sm font-medium text-primary">{skill.name}</span>
-                <span className="text-sm font-medium text-accent">{skill.level}%</span>
-              </div>
-              <div className="h-2 bg-accent/10 rounded-full overflow-hidden">
-                <motion.div
-                  className="h-full bg-accent rounded-full"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${skill.level}%` }}
-                  transition={{ duration: 1, ease: "easeOut" }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      )
-    }
-  ];
-
   return (
-    <section id="about" className="section-padding">
-      <div className="background-pattern" />
-      <div className="container relative">
-        <motion.div 
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="section-title gradient-text animate-gradient">À propos de moi</h2>
-          <p className="section-subtitle">
-            Découvrez mon parcours et mes compétences en développement web
-          </p>
-        </motion.div>
-
-        <div className="grid md:grid-cols-2 gap-12 items-start">
-          {/* Colonne de gauche - Stack de cartes */}
-          <div className="relative h-[600px]">
-            <CardStack items={cards} offset={10} scaleFactor={0.06} />
+    <section id="about" className="relative py-20 overflow-hidden">
+      <BackgroundBeams />
+      <div className="container relative z-10 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <AnimatedText
+              text="À Propos de Moi"
+              className="text-4xl font-bold mb-4 gradient-text"
+            />
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-neutral-600 dark:text-neutral-300 max-w-2xl mx-auto"
+            >
+              Découvrez mon parcours professionnel et mes compétences
+            </motion.p>
           </div>
 
-          {/* Colonne de droite - Contenu */}
-          <div className="space-y-8">
-            {/* À propos */}
-            <motion.div 
-              className="card p-8 hover-lift"
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Description */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <HoverCard>
+                <div className="p-6">
+                  <h3 className="text-2xl font-semibold mb-4">Description</h3>
+                  <p className="text-neutral-600 dark:text-neutral-300">
+                  Je suis un développeur web passionné fraichement diplômé avec 2 ans d'expérience 
+                  dans la création d'applications web modernes et performantes. 
+                  Mon approche combine créativité et expertise technique pour livrer des solutions innovantes.
+                  </p>
+                </div>
+              </HoverCard>
+            </motion.div>
+
+            {/* Formations */}
+            <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <HoverCard>
+                <div className="p-6">
+                  <h3 className="text-2xl font-semibold mb-4">Formations</h3>
+                  <div className="space-y-4">
+                    {formations.map((formation, index) => (
+                      <div key={index} className="border-l-2 border-violet-500 pl-4">
+                        <div className="text-sm text-violet-500 mb-1">{formation.année}</div>
+                        <h4 className="font-semibold">{formation.diplôme}</h4>
+                        <div className="text-neutral-600 dark:text-neutral-300 text-sm">
+                          {formation.école}
+                        </div>
+                        <p className="text-neutral-600 dark:text-neutral-300 text-sm mt-1">
+                          {formation.description}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </HoverCard>
+            </motion.div>
+
+            {/* Compétences */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
+              className="md:col-span-2"
             >
-              <h3 className="text-2xl font-semibold mb-6 gradient-text">Qui suis-je ?</h3>
-              <p className="text-secondary mb-4">
-                Je suis un développeur web passionné fraichement diplômé avec 2 ans d'expérience dans la création
-                d'applications web modernes et performantes. Mon approche combine créativité et
-                expertise technique pour livrer des solutions innovantes.
-              </p>
-              <p className="text-secondary">
-                Je suis constamment à la recherche de nouveaux défis et opportunités d'apprentissage
-                pour rester à la pointe des dernières technologies web.
-              </p>
-            </motion.div>
-
-            {/* Technologies */}
-            <motion.div 
-              className="card p-8 hover-lift"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <h3 className="text-2xl font-semibold mb-6 gradient-text">Technologies</h3>
-              <div className="flex flex-wrap gap-3">
-                <span className="skill-badge">HTML5</span>
-                <span className="skill-badge">CSS3</span>
-                <span className="skill-badge">JavaScript</span>
-                <span className="skill-badge">PHP</span>
-                <span className="skill-badge">SQL</span>
-                <span className="skill-badge">Python</span>
-                <span className="skill-badge">Java</span>
-                <span className="skill-badge">React</span>
-                <span className="skill-badge">Node.js</span>
-                <span className="skill-badge">Express</span>
-                <span className="skill-badge">MongoDB</span>
-                <span className="skill-badge">Git</span>
-                <span className="skill-badge">Tailwind CSS</span>
-              </div>
-            </motion.div>
-
-            {/* Formation */}
-            <motion.div 
-              className="card p-8 hover-lift"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-            >
-              <h3 className="text-2xl font-semibold mb-6 gradient-text">Formation</h3>
-              <div className="space-y-6">
-                {education.map((edu, index) => (
-                  <motion.div
-                    key={index}
-                    className="flex items-start space-x-4"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.8 + index * 0.2 }}
-                  >
-                    <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
-                      <svg className="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold">{edu.title}</h4>
-                      <p className="text-secondary">{edu.school}</p>
-                      <p className="text-sm text-secondary">{edu.year}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+              <HoverCard>
+                <div className="p-6">
+                  <h3 className="text-2xl font-semibold mb-4">Compétences</h3>
+                  <div className="grid grid-cols-2 gap-4">
+                    {skills.map((skill, index) => (
+                      <div key={index}>
+                        <div className="flex justify-between mb-1">
+                          <span className="text-sm font-medium">{skill.name}</span>
+                          <span className="text-sm text-neutral-600 dark:text-neutral-300">
+                            {skill.level}%
+                          </span>
+                        </div>
+                        <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${skill.level}%` }}
+                            transition={{ duration: 1, delay: index * 0.1 }}
+                            className="bg-violet-500 h-2 rounded-full"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </HoverCard>
             </motion.div>
           </div>
         </div>
