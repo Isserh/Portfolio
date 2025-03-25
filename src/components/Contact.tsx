@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { HoverCard } from './ui/HoverCard';
 import { AnimatedText } from './ui/AnimatedText';
 import { ParticleEffect } from './ui/ParticleEffect';
-import AnimatedButton from './ui/AnimatedButton';
+
 
 interface ContactForm {
   name: string;
